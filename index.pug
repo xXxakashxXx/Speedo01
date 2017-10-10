@@ -1,0 +1,25 @@
+- var ticks = 120;
+- var tickLabels = 12;
+- var tickInc = ticks / tickLabels;
+main
+  .speedometer
+    .speedometer-inner
+        - for (var i = 0; i < ticks + 1; ++i) {
+            .tick
+              - for (var j = 0; j <= tickLabels; ++j) {
+                - if (i == tickInc * j) {
+                    span
+                - }
+              - }
+        - }
+        .arrow
+        .unit
+        .wpm
+          span(id="h",class="_")
+          span(id="t",class="_")
+          span(id="o",class="_0")
+
+  form
+    label(for="ta")="Type something as fast as you can!"
+    textarea(id="ta",type="text",cols="36",rows="8",value="")
+    button(type="reset")="Reset"

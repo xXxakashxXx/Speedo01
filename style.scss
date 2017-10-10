@@ -1,0 +1,208 @@
+$ticks: 120;
+$tickLabels: 12;
+$tickInc: $ticks / $tickLabels;
+$wpm: 0; // initial speed
+
+:root {
+  font-size: calc(8px + 0.2vw);
+}
+* {
+  box-sizing: border-box;
+  font-size: inherit;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: rgb(32,32,32);
+  font-family: "Play", sans-serif;
+}
+main {
+  margin: 2em auto;
+  width: 90%;
+  min-width: 300px
+}
+@media (min-width: 360px) {
+  main {
+    width: calc(40em + 0.2vw);
+  }
+}
+.speedometer, form > * {
+  margin: auto auto calc(16px + 0.2vw) auto;
+}
+label, textarea, button {
+  font: {
+    family: Helvetica, sans-serif;
+    size: 1.75em;
+  };
+}
+label, button {
+  color: #fff;
+}
+label, textarea {
+  line-height: 1.5em;
+}
+textarea, button {
+  border: 0;
+	border-radius: 0;
+  letter-spacing: 0.02em;
+  width: 100%;
+}
+textarea {
+  padding: 0.75em;
+}
+button {
+  background-color: rgb(60,90,172);
+  color: #fff;
+  padding: 1em 0;
+  &:active {
+    background-color: rgb(44,74,156);
+  }
+}
+.speedometer {
+  overflow: hidden;
+  width: 32em;
+  height: 24em;
+}
+.speedometer-inner {
+  background-image:
+    radial-gradient(
+      100% 100% at 50% 50%,
+      rgba(0,0,0,0) 7%,
+      rgba(0,0,0,0.4) 7.25%,
+      rgba(0,0,0,0) 8%,
+      rgba(0,0,0,0) 46.5%,
+      rgb(128,128,128) 46.5%,
+      rgb(255,255,255) 48.5%,
+      rgb(208,208,208) 49.75%,
+      transparent 50%
+  );
+  color: rgb(255,255,255);
+  position: relative;
+  width: 100%;
+  height: 32em;
+  > div {
+    position: absolute;
+  }
+}
+.tick, .unit, .wpm {
+  z-index: 0;
+}
+.tick {
+  background-image: linear-gradient(transparent 4%, rgb(255,255,255) 4%, rgb(255,255,255) 8%, transparent 8%);
+  top: 0;
+  left: calc(50% - 0.09em);
+  width: 0.18em;
+  height: 100%;
+  span {
+    display: block;
+    font-size: 2.2em;
+    text-align: center;
+    width: 3.6em;
+  }
+  @for $i from 1 through $ticks + 1 {
+    &:nth-of-type(#{$i}) {
+      transform: rotate(-121deg + (240 / ($ticks + 1)) * $i);
+    }
+  }
+  @for $i from 1 through $tickLabels + 1 {
+    &:nth-of-type(#{($i - 1) * $tickInc + 1}) span {
+      transform: translate(-50%,2em) rotate(120deg - (($ticks / $tickLabels * 2) * ($i - 1)));
+      &:before {
+        content: "#{($i - 1) * $tickInc}";
+      }
+    }
+  }
+  &:nth-of-type(5n + 1) {
+    background-image: linear-gradient(transparent 4%, rgb(255,255,255) 4%, rgb(255,255,255) 10%, transparent 10%);
+    width: 0.2em;
+  }
+  &:nth-of-type(10n + 1) {
+    background-image: linear-gradient(transparent 4%, rgb(255,255,255) 4%, rgb(255,255,255) 12%, transparent 12%);
+    width: 0.3em;
+  }
+}
+.arrow {
+  background-color: rgb(255,222,24);
+  border-radius: 50% 50% 0 0;
+  box-shadow: 0 0 1px 1px rgb(160,64,0) inset, 0 0 1px 1px rgba(0,0,0,0.4);
+  top: 33%;
+  left: calc(50% - 0.45em);
+  width: 0.9em;
+  height: 10.8em;
+  transform: rotate(0deg + (($wpm * 2) - 120)) translateY(-73%);
+  transition: transform 1s linear;
+  z-index: 1;
+}
+.unit {
+  font-size: 2.2em;
+  text-align: center;
+  top: 31%;
+  left: calc(50% - 1.5em);
+  width: 3em;
+  &:before {
+    content: "WPM";
+  }
+}
+.wpm {
+  background-color: rgb(255,255,255);
+  border-radius: 0.2em;
+  box-shadow: 0 (0.05em) (0.05em) rgba(0,0,0,0.5) inset;
+  color: rgb(0,0,0);
+  font-size: 3em;
+  line-height: 1.25em;
+  overflow: hidden;
+  top: 62%;
+  left: calc(50% - 1.5em);
+  padding: 0 0.4em;
+  height: 1.2em;
+  width: 3em;
+  > span {
+    /* Number sprites by lavarmsg from Vecteezy.com (https://www.vecteezy.com/vector-art/95999-digital-number-counter) */
+    background: {
+      image: url(https://static.vecteezy.com/system/resources/previews/000/095/999/original/vector-digital-number-counter.jpg);
+      size: 6em auto;
+    };
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    width: 0.7em;
+    transform: translateY(0.12em);
+  }
+}
+/* Number sprites */
+$yPos1: -1.725em;
+$yPos2: -2.87em;
+._ {
+  background-position: -3.65em $yPos2;
+  opacity: 0.2;
+}
+._0 {
+  background-position: -0.725em $yPos1;
+}
+._1 {
+  background-position: -1.7em $yPos1;
+}
+._2 {
+  background-position: -2.675em $yPos1;
+}
+._3 {
+  background-position: -3.675em $yPos1;
+}
+._4 {
+  background-position: -4.65em $yPos1;
+}
+._5 {
+  background-position: -0.725em $yPos2;
+}
+._6 {
+  background-position: -1.7em $yPos2;
+}
+._7 {
+  background-position: -2.675em $yPos2;
+}
+._8 {
+  background-position: -3.65em $yPos2;
+}
+._9 {
+  background-position: -4.625em $yPos2;
+}
